@@ -9,18 +9,18 @@ import {
 @Entity({ schema: 'inventory', name: 'product_tbl' })
 export class Product {
   @PrimaryGeneratedColumn({ type: 'int' })
-  productId: number;
+  id: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: false })
   name: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: false })
   description: string;
 
-  @Column({ type: 'bigint' })
+  @Column({ type: 'int', nullable: false })
   quantity: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 5 })
   threshold: number;
 
   @CreateDateColumn()
