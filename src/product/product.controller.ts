@@ -11,36 +11,55 @@ import {
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { UpdateStockDto } from './dto/update-stock.dto';
 
-@Controller('product')
+@Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @Post('create')
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productService.create(createProductDto);
+  @Post()
+  create(@Body() dto: CreateProductDto) {
+    return this.productService.create(dto);
   }
 
-  @Get('find')
+  @Get()
   findAll() {
     return this.productService.findAll();
   }
 
-  @Get('find/:id')
-  findOne(@Param('id', new ParseIntPipe()) id: number) {
+  @Get('low-stock')
+  findLowStock() {
+    return this.productService.findLowStock();
+  }
+
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
     return this.productService.findOne(id);
   }
 
-  @Patch('update/:id')
-  update(
-    @Param('id', new ParseIntPipe()) id: number,
-    @Body() updateProductDto: UpdateProductDto,
-  ) {
-    return this.productService.update(id, updateProductDto);
+  @Patch(':id')
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateProductDto) {
+    return this.productService.update(id, dto);
   }
 
-  @Delete('delete/:id')
-  remove(@Param('id', new ParseIntPipe()) id: number) {
+  @Patch(':id/increase')
+  increaseStock(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateStockDto,
+  ) {
+    return this.productService.increaseStock(id, dto.amount);
+  }
+
+  @Patch(':id/decrease')
+  decreaseStock(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateStockDto,
+  ) {
+    return this.productService.decreaseStock(id, dto.amount);
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
     return this.productService.remove(id);
   }
 }
