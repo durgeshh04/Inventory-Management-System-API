@@ -13,4 +13,8 @@ export class CreateProductDto {
   @ApiProperty()
   @IsNumber()
   stockQuantity: number;
+
+  @ApiProperty()
+  @IsNumber()
+  threshold: number;
 }
